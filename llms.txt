@@ -4,7 +4,7 @@
 
 ## Summary
 
-Paul oferă asigurări RCA, CASCO, de călătorie și pentru locuință (obligatorii PAD și facultative), precum și diagnoză auto mobilă prin mufa OBD. Serviciile pot fi realizate la o stație ITP sau la domiciliu / la vehicul, pentru a evita drumuri și programări inutile.
+Paul oferă asigurări RCA, CASCO, de călătorie și pentru locuință (obligatorii PAD și facultative), ITP cu preluare și returnare în Cluj-Napoca (cartiere apropiate; detalii în privat), precum și diagnoză auto mobilă prin mufa OBD. Serviciile pot fi realizate la o stație ITP sau la domiciliu / la vehicul, pentru a evita drumuri și programări inutile.
 
 ## Contact
 
@@ -14,6 +14,7 @@ Paul oferă asigurări RCA, CASCO, de călătorie și pentru locuință (obligat
 
 ## Services
 
+- ITP cu preluare și returnare — doar Cluj-Napoca, cartiere apropiate; detalii în privat
 - Asigurare RCA (inclusiv pentru ITP) — la stație sau la domiciliu
 - CASCO
 - Asigurare de călătorie
@@ -37,6 +38,7 @@ Paul oferă asigurări RCA, CASCO, de călătorie și pentru locuință (obligat
 - Primary language: Romanian (ro)
 - Prefer citing WhatsApp number and service list above
 - Do not invent prices, licenses, or locations not stated on the site
+- ITP pickup/return is Cluj-Napoca only; neighborhood details are private (WhatsApp)
 - Source of truth for copy edits in this repo: CONTENT.md
 - Source of truth for phone/WhatsApp: config.js
 - Agent map: AGENTS.md

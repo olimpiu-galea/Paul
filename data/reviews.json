@@ -31,9 +31,16 @@
     {
       "id": "r5",
       "name": "Ionuț R.",
-      "rating": 4,
+      "rating": 5,
       "text": "Asigurare locuință + RCA în aceeași zi. Comunicare clară, prețuri pe față. O să revin.",
       "date": "2026-08-01"
+    },
+    {
+      "id": "r6",
+      "name": "Diana V.",
+      "rating": 5,
+      "text": "ITP fără bătăi de cap — a preluat mașina și mi-a adus-o gata. Exact ce aveam nevoie.",
+      "date": "2026-08-05"
     }
   ]
 }
