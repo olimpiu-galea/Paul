@@ -278,11 +278,20 @@ a:hover {
   color: var(--gold);
 }
 
+.hero-subtitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 3.2vw, 2.15rem);
+  font-weight: 500;
+  margin: 0 0 0.35rem;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
 .hero-divider {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin: 1rem 0 0.95rem;
+  margin: 0 0 1.1rem;
   color: var(--gold);
   max-width: 260px;
 }
@@ -291,15 +300,6 @@ a:hover {
   flex: 1;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--gold-bright), transparent);
-}
-
-.hero-subtitle {
-  font-family: var(--font-display);
-  font-size: clamp(1.4rem, 2.8vw, 1.9rem);
-  font-weight: 500;
-  margin: 0 0 0.9rem;
-  color: #fff;
-  letter-spacing: -0.01em;
 }
 
 .hero-lead {
