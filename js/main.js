@@ -84,20 +84,23 @@
 
     const name = (fields.name.value || "").trim();
     const phone = (fields.phone.value || "").trim();
-    const service = fields.service.value || "";
+    const serviceValue = fields.service.value || "";
+    const serviceLabel = (
+      fields.service.options[fields.service.selectedIndex]?.textContent || ""
+    ).trim();
     const message = (fields.message.value || "").trim();
 
     setError("name", !name);
     setError("phone", !validPhone(phone));
-    setError("service", !service);
+    setError("service", !serviceValue);
     setError("message", !message);
-    if (!name || !validPhone(phone) || !service || !message) return;
+    if (!name || !validPhone(phone) || !serviceValue || !message) return;
 
     const text = [
       "Bună ziua,",
       `Nume: ${name}`,
       `Telefon: ${phone}`,
-      `Serviciu: ${service}`,
+      `Serviciu: ${serviceLabel}`,
       `Mesaj: ${message}`,
     ].join("\n");
 
