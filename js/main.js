@@ -74,6 +74,11 @@
     return digits.length >= 9 && digits.length <= 15;
   }
 
+  fields.name.addEventListener("input", () => setError("name", false));
+  fields.phone.addEventListener("input", () => setError("phone", false));
+  fields.service.addEventListener("change", () => setError("service", false));
+  fields.message.addEventListener("input", () => setError("message", false));
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
