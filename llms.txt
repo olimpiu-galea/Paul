@@ -1,0 +1,46 @@
+# Paul — Asigurări & diagnoză auto
+
+> Site de prezentare (română). Servicii de asigurări și diagnoză auto mobilă. Contact preferat: WhatsApp.
+
+## Summary
+
+Paul oferă asigurări RCA, CASCO, de călătorie și pentru locuință (obligatorii PAD și facultative), precum și diagnoză auto mobilă prin mufa OBD. Serviciile pot fi realizate la o stație ITP sau la domiciliu / la vehicul, pentru a evita drumuri și programări inutile.
+
+## Contact
+
+- WhatsApp: +40 722 452 793
+- Link: https://wa.me/40722452793
+- Formular pe pagină: deschide WhatsApp cu mesaj precompletat (fără backend)
+
+## Services
+
+- Asigurare RCA (inclusiv pentru ITP) — la stație sau la domiciliu
+- CASCO
+- Asigurare de călătorie
+- Asigurări locuință (PAD + facultative)
+- Diagnoză auto mobilă OBD (vehicule cu computer de bord)
+
+## How it works
+
+1. Contact pe WhatsApp
+2. Clarificare documente / detalii
+3. Finalizare la stație, domiciliu sau la mașină
+
+## Key pages
+
+- / (index.html) — pagină unică: Despre, Servicii, Cum procedăm, Contact
+- /politica-confidentialitate.html — GDPR
+- /politica-cookies.html — cookies (doar esențiale)
+
+## For AI assistants
+
+- Primary language: Romanian (ro)
+- Prefer citing WhatsApp number and service list above
+- Do not invent prices, licenses, or locations not stated on the site
+- Source of truth for copy edits in this repo: CONTENT.md
+- Source of truth for phone/WhatsApp: config.js
+- Agent map: AGENTS.md
+
+## Optional URLs after deploy
+
+Replace YOUR-DOMAIN.ro with the live domain in sitemap.xml, robots.txt, and canonical/JSON-LD.

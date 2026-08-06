@@ -1,0 +1,25 @@
+# Dependencies / build
+node_modules/
+.vercel/
+dist/
+.next/
+.output/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.log
+.idea/
+.vscode/
+*.swp
+*~
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Temp
+_*.css
+*.tmp
