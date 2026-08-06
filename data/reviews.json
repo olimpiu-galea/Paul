@@ -1,0 +1,39 @@
+{
+  "reviews": [
+    {
+      "id": "r1",
+      "name": "Andrei M.",
+      "rating": 5,
+      "text": "Am făcut RCA-ul la stație în câteva minute, fără cozi și fără drumuri în plus. Clar și profesionist.",
+      "date": "2026-06-18"
+    },
+    {
+      "id": "r2",
+      "name": "Elena D.",
+      "rating": 5,
+      "text": "A venit la domiciliu pentru poliță. Explicații pe înțelesul meu, fără presiune. Recomand cu încredere.",
+      "date": "2026-07-02"
+    },
+    {
+      "id": "r3",
+      "name": "Cristian P.",
+      "rating": 5,
+      "text": "Diagnoză OBD pe loc — am aflat imediat ce avea mașina. Mi-a salvat o zi întreagă de așteptare la service.",
+      "date": "2026-07-14"
+    },
+    {
+      "id": "r4",
+      "name": "Maria S.",
+      "rating": 5,
+      "text": "CASCO rezolvat rapid, pe WhatsApp. Răspunde prompt și știe ce face. Mulțumesc!",
+      "date": "2026-07-28"
+    },
+    {
+      "id": "r5",
+      "name": "Ionuț R.",
+      "rating": 4,
+      "text": "Asigurare locuință + RCA în aceeași zi. Comunicare clară, prețuri pe față. O să revin.",
+      "date": "2026-08-01"
+    }
+  ]
+}

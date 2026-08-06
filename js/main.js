@@ -55,56 +55,56 @@
   }
 
   const form = document.getElementById("whatsapp-form");
-  if (!form) return;
+  if (form) {
+    const fields = {
+      name: form.querySelector("#name"),
+      phone: form.querySelector("#phone"),
+      service: form.querySelector("#service"),
+      message: form.querySelector("#message"),
+    };
 
-  const fields = {
-    name: form.querySelector("#name"),
-    phone: form.querySelector("#phone"),
-    service: form.querySelector("#service"),
-    message: form.querySelector("#message"),
-  };
+    function setError(key, on) {
+      const wrap = form.querySelector(`[data-field="${key}"]`);
+      if (wrap) wrap.classList.toggle("has-error", !!on);
+    }
 
-  function setError(key, on) {
-    const wrap = form.querySelector(`[data-field="${key}"]`);
-    if (wrap) wrap.classList.toggle("has-error", !!on);
+    function validPhone(value) {
+      const digits = value.replace(/\D/g, "");
+      return digits.length >= 9 && digits.length <= 15;
+    }
+
+    fields.name.addEventListener("input", () => setError("name", false));
+    fields.phone.addEventListener("input", () => setError("phone", false));
+    fields.service.addEventListener("change", () => setError("service", false));
+    fields.message.addEventListener("input", () => setError("message", false));
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = (fields.name.value || "").trim();
+      const phone = (fields.phone.value || "").trim();
+      const serviceValue = fields.service.value || "";
+      const serviceLabel = (
+        fields.service.options[fields.service.selectedIndex]?.textContent || ""
+      ).trim();
+      const message = (fields.message.value || "").trim();
+
+      setError("name", !name);
+      setError("phone", !validPhone(phone));
+      setError("service", !serviceValue);
+      setError("message", !message);
+      if (!name || !validPhone(phone) || !serviceValue || !message) return;
+
+      const text = [
+        "Bună ziua,",
+        `Nume: ${name}`,
+        `Telefon: ${phone}`,
+        `Serviciu: ${serviceLabel}`,
+        `Mesaj: ${message}`,
+      ].join("\n");
+
+      const url = `https://wa.me/${cfg.whatsappNumber}?text=${encodeURIComponent(text)}`;
+      window.open(url, "_blank", "noopener,noreferrer");
+    });
   }
-
-  function validPhone(value) {
-    const digits = value.replace(/\D/g, "");
-    return digits.length >= 9 && digits.length <= 15;
-  }
-
-  fields.name.addEventListener("input", () => setError("name", false));
-  fields.phone.addEventListener("input", () => setError("phone", false));
-  fields.service.addEventListener("change", () => setError("service", false));
-  fields.message.addEventListener("input", () => setError("message", false));
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const name = (fields.name.value || "").trim();
-    const phone = (fields.phone.value || "").trim();
-    const serviceValue = fields.service.value || "";
-    const serviceLabel = (
-      fields.service.options[fields.service.selectedIndex]?.textContent || ""
-    ).trim();
-    const message = (fields.message.value || "").trim();
-
-    setError("name", !name);
-    setError("phone", !validPhone(phone));
-    setError("service", !serviceValue);
-    setError("message", !message);
-    if (!name || !validPhone(phone) || !serviceValue || !message) return;
-
-    const text = [
-      "Bună ziua,",
-      `Nume: ${name}`,
-      `Telefon: ${phone}`,
-      `Serviciu: ${serviceLabel}`,
-      `Mesaj: ${message}`,
-    ].join("\n");
-
-    const url = `https://wa.me/${cfg.whatsappNumber}?text=${encodeURIComponent(text)}`;
-    window.open(url, "_blank", "noopener,noreferrer");
-  });
 })();

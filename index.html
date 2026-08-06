@@ -27,6 +27,7 @@
   <script src="config.js" defer></script>
   <script src="js/cookies.js" defer></script>
   <script src="js/main.js" defer></script>
+  <script src="js/reviews.js" defer></script>
 
   <script type="application/ld+json">
   {
@@ -135,6 +136,7 @@
       <nav class="nav" id="site-nav" data-nav>
         <a href="#top" class="is-active">Acasă</a>
         <a href="#despre">Despre mine</a>
+        <a href="#recenzii">Recenzii</a>
         <a href="#servicii">Servicii</a>
         <a href="#cum-functioneaza">Cum procedăm</a>
         <a href="#contact">Contact</a>
@@ -236,6 +238,72 @@
             </article>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section id="recenzii" class="reviews-section" aria-labelledby="recenzii-title" data-reviews>
+      <div class="container section-block">
+        <div class="reviews-head">
+          <div>
+            <p class="section-label">Recenzii</p>
+            <div class="reviews-title-row">
+              <h2 class="section-title" id="recenzii-title">Ce spun clienții</h2>
+              <div class="reviews-avg" data-reviews-avg hidden>
+                <span class="reviews-avg-score" data-avg-score></span>
+                <span class="reviews-avg-stars" data-avg-stars aria-hidden="true"></span>
+                <span class="reviews-avg-count" data-avg-count></span>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-ghost" data-review-open>
+            Lasă un review
+          </button>
+        </div>
+        <div class="reviews-stage">
+          <div class="reviews-track" data-reviews-track></div>
+          <div class="reviews-dots" data-reviews-dots role="tablist" aria-label="Recenzii"></div>
+        </div>
+        <script type="application/json" id="reviews-seed">
+{
+  "reviews": [
+    {
+      "id": "r1",
+      "name": "Andrei M.",
+      "rating": 5,
+      "text": "Am făcut RCA-ul la stație în câteva minute, fără cozi și fără drumuri în plus. Clar și profesionist.",
+      "date": "2026-06-18"
+    },
+    {
+      "id": "r2",
+      "name": "Elena D.",
+      "rating": 5,
+      "text": "A venit la domiciliu pentru poliță. Explicații pe înțelesul meu, fără presiune. Recomand cu încredere.",
+      "date": "2026-07-02"
+    },
+    {
+      "id": "r3",
+      "name": "Cristian P.",
+      "rating": 5,
+      "text": "Diagnoză OBD pe loc — am aflat imediat ce avea mașina. Mi-a salvat o zi întreagă de așteptare la service.",
+      "date": "2026-07-14"
+    },
+    {
+      "id": "r4",
+      "name": "Maria S.",
+      "rating": 5,
+      "text": "CASCO rezolvat rapid, pe WhatsApp. Răspunde prompt și știe ce face. Mulțumesc!",
+      "date": "2026-07-28"
+    },
+    {
+      "id": "r5",
+      "name": "Ionuț R.",
+      "rating": 4,
+      "text": "Asigurare locuință + RCA în aceeași zi. Comunicare clară, prețuri pe față. O să revin.",
+      "date": "2026-08-01"
+    }
+  ]
+}
+        </script>
       </div>
     </section>
 
@@ -404,6 +472,42 @@
     <div class="cookie-actions">
       <button type="button" class="btn btn-primary btn-sm" data-cookie-accept>Am înțeles</button>
       <button type="button" class="btn btn-secondary btn-sm" data-cookie-essential>Doar esențiale</button>
+    </div>
+  </div>
+
+  <div class="modal" id="review-modal" role="dialog" aria-modal="true" aria-labelledby="review-modal-title" hidden>
+    <div class="modal-backdrop" data-review-close tabindex="-1"></div>
+    <div class="modal-panel">
+      <button type="button" class="modal-close" data-review-close aria-label="Închide">×</button>
+      <p class="section-label">Recenzie</p>
+      <h2 class="modal-title" id="review-modal-title">Lasă un review</h2>
+      <p class="modal-lead">Spune-ne pe scurt cum a fost experiența cu serviciile oferite.</p>
+      <form id="review-form" novalidate>
+        <div class="field" data-field="review-name">
+          <label for="review-name">Nume</label>
+          <input id="review-name" name="name" type="text" autocomplete="name" required maxlength="60" placeholder="Numele dumneavoastră" />
+          <p class="field-error">Introduceți numele.</p>
+        </div>
+        <div class="field" data-field="review-rating">
+          <span class="field-label" id="review-rating-label">Evaluare</span>
+          <input type="hidden" id="review-rating" name="rating" value="5" />
+          <div class="star-picker" role="radiogroup" aria-labelledby="review-rating-label">
+            <button type="button" class="star-btn is-on" data-star="1" role="radio" aria-checked="false" aria-label="1 stea">★</button>
+            <button type="button" class="star-btn is-on" data-star="2" role="radio" aria-checked="false" aria-label="2 stele">★</button>
+            <button type="button" class="star-btn is-on" data-star="3" role="radio" aria-checked="false" aria-label="3 stele">★</button>
+            <button type="button" class="star-btn is-on" data-star="4" role="radio" aria-checked="false" aria-label="4 stele">★</button>
+            <button type="button" class="star-btn is-on" data-star="5" role="radio" aria-checked="true" aria-label="5 stele">★</button>
+          </div>
+        </div>
+        <div class="field" data-field="review-text">
+          <label for="review-text">Mesaj</label>
+          <textarea id="review-text" name="text" required maxlength="400" rows="4" placeholder="Descrieți pe scurt experiența…"></textarea>
+          <p class="field-error">Scrieți cel puțin 10 caractere.</p>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">Trimite pe WhatsApp</button>
+        </div>
+      </form>
     </div>
   </div>
 </body>
