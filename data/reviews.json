@@ -1,6 +1,34 @@
 {
   "reviews": [
     {
+      "id": "r7",
+      "name": "Sergiu H.",
+      "rating": 5,
+      "text": "Servicii excelente și un profesionalism desăvârșit! Am fost ajutat să găsesc rapid cea mai bună ofertă RCA, fără timp pierdut și fără bătăi de cap. Mi s-au explicat clar toate opțiunile, clauzele și diferențele dintre asigurători, iar procesul de emitere a fost extrem de rapid.",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "r8",
+      "name": "Goia Daniel",
+      "rating": 5,
+      "text": "ITP și RCA în același loc cu servicii de calitate",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "r9",
+      "name": "Goia Catalin",
+      "rating": 5,
+      "text": "Calitate și încredere",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "r10",
+      "name": "Catalin Bengeanu",
+      "rating": 5,
+      "text": "Un om foarte serios!",
+      "date": "2026-08-10"
+    },
+    {
       "id": "r1",
       "name": "Andrei M.",
       "rating": 5,

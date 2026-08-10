@@ -101,12 +101,16 @@
   }
 
   function reviewCardHtml(r) {
+    const id = escapeHtml(r.id || "");
     return (
-      '<article class="review-card">' +
+      '<article class="review-card" data-review-id="' +
+      id +
+      '">' +
       starsHtml(r.rating) +
-      '<blockquote class="review-text">' +
+      '<blockquote class="review-text is-clamped">' +
       escapeHtml(r.text || "") +
       "</blockquote>" +
+      '<button type="button" class="review-more" data-review-more hidden>Citește mai mult</button>' +
       '<footer class="review-meta">' +
       '<span class="review-name">' +
       escapeHtml(r.name || "Client") +
@@ -121,6 +125,16 @@
       "</footer>" +
       "</article>"
     );
+  }
+
+  function markOverflow() {
+    track.querySelectorAll(".review-card").forEach((card) => {
+      const textEl = card.querySelector(".review-text");
+      const moreBtn = card.querySelector("[data-review-more]");
+      if (!textEl || !moreBtn) return;
+      const overflows = textEl.scrollHeight > textEl.clientHeight + 1;
+      moreBtn.hidden = !overflows;
+    });
   }
 
   function buildPages() {
@@ -170,6 +184,8 @@
         )
         .join("");
     }
+
+    requestAnimationFrame(markOverflow);
   }
 
   function goTo(i) {
@@ -185,6 +201,7 @@
         el.classList.toggle("is-active", j === index);
       });
     }
+    requestAnimationFrame(markOverflow);
   }
 
   function next() {
@@ -194,6 +211,7 @@
   function startTimer() {
     stopTimer();
     if (reducedMotion || pages.length < 2) return;
+    if (!modal.hidden || (viewModal && !viewModal.hidden)) return;
     timer = window.setInterval(next, INTERVAL_MS);
   }
 
@@ -214,6 +232,41 @@
     startTimer();
   }
 
+  const viewModal = document.getElementById("review-view-modal");
+  const viewStars = viewModal && viewModal.querySelector("[data-view-stars]");
+  const viewText = viewModal && viewModal.querySelector("[data-view-text]");
+  const viewName = viewModal && viewModal.querySelector("[data-view-name]");
+  const viewDate = viewModal && viewModal.querySelector("[data-view-date]");
+
+  function openViewModal(review) {
+    if (!viewModal || !review) return;
+    if (viewStars) viewStars.innerHTML = starsHtml(review.rating);
+    if (viewText) viewText.textContent = review.text || "";
+    if (viewName) viewName.textContent = review.name || "Client";
+    if (viewDate) {
+      if (review.date) {
+        viewDate.dateTime = review.date;
+        viewDate.textContent = formatDate(review.date);
+        viewDate.hidden = false;
+      } else {
+        viewDate.textContent = "";
+        viewDate.hidden = true;
+      }
+    }
+    viewModal.hidden = false;
+    document.body.classList.add("modal-open");
+    stopTimer();
+    const closeBtn = viewModal.querySelector("[data-review-view-close]");
+    if (closeBtn) closeBtn.focus();
+  }
+
+  function closeViewModal() {
+    if (!viewModal) return;
+    viewModal.hidden = true;
+    if (modal.hidden) document.body.classList.remove("modal-open");
+    startTimer();
+  }
+
   function openModal() {
     modal.hidden = false;
     document.body.classList.add("modal-open");
@@ -224,12 +277,12 @@
 
   function closeModal() {
     modal.hidden = true;
-    document.body.classList.remove("modal-open");
     form.reset();
     form.querySelectorAll(".has-error").forEach((el) => el.classList.remove("has-error"));
     const ratingInput = form.querySelector("#review-rating");
     if (ratingInput) ratingInput.value = "5";
     syncStarButtons(5);
+    if (!viewModal || viewModal.hidden) document.body.classList.remove("modal-open");
     startTimer();
   }
 
@@ -258,15 +311,41 @@
     el.addEventListener("click", closeModal);
   });
 
+  if (viewModal) {
+    viewModal.querySelectorAll("[data-review-view-close]").forEach((el) => {
+      el.addEventListener("click", closeViewModal);
+    });
+  }
+
+  track.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-review-more]");
+    if (!btn) return;
+    const card = btn.closest("[data-review-id]");
+    if (!card) return;
+    const id = card.getAttribute("data-review-id");
+    const review = reviews.find((r) => String(r.id) === String(id));
+    if (review) openViewModal(review);
+  });
+
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !modal.hidden) closeModal();
+    if (e.key !== "Escape") return;
+    if (viewModal && !viewModal.hidden) closeViewModal();
+    else if (!modal.hidden) closeModal();
   });
 
   section.addEventListener("mouseenter", stopTimer);
-  section.addEventListener("mouseleave", startTimer);
+  section.addEventListener("mouseleave", () => {
+    if (modal.hidden && (!viewModal || viewModal.hidden)) startTimer();
+  });
   section.addEventListener("focusin", stopTimer);
   section.addEventListener("focusout", (e) => {
-    if (!section.contains(e.relatedTarget)) startTimer();
+    if (!section.contains(e.relatedTarget)) {
+      if (modal.hidden && (!viewModal || viewModal.hidden)) startTimer();
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    requestAnimationFrame(markOverflow);
   });
 
   if (dots) {

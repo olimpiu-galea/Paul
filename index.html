@@ -284,6 +284,34 @@
 {
   "reviews": [
     {
+      "id": "r7",
+      "name": "Sergiu H.",
+      "rating": 5,
+      "text": "Servicii excelente și un profesionalism desăvârșit! Am fost ajutat să găsesc rapid cea mai bună ofertă RCA, fără timp pierdut și fără bătăi de cap. Mi s-au explicat clar toate opțiunile, clauzele și diferențele dintre asigurători, iar procesul de emitere a fost extrem de rapid.",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "r8",
+      "name": "Goia Daniel",
+      "rating": 5,
+      "text": "ITP și RCA în același loc cu servicii de calitate",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "r9",
+      "name": "Goia Catalin",
+      "rating": 5,
+      "text": "Calitate și încredere",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "r10",
+      "name": "Catalin Bengeanu",
+      "rating": 5,
+      "text": "Un om foarte serios!",
+      "date": "2026-08-10"
+    },
+    {
       "id": "r1",
       "name": "Andrei M.",
       "rating": 5,
@@ -504,6 +532,21 @@
     <div class="cookie-actions">
       <button type="button" class="btn btn-primary btn-sm" data-cookie-accept>Am înțeles</button>
       <button type="button" class="btn btn-secondary btn-sm" data-cookie-essential>Doar esențiale</button>
+    </div>
+  </div>
+
+  <div class="modal" id="review-view-modal" role="dialog" aria-modal="true" aria-labelledby="review-view-title" hidden>
+    <div class="modal-backdrop" data-review-view-close tabindex="-1"></div>
+    <div class="modal-panel modal-panel--review">
+      <button type="button" class="modal-close" data-review-view-close aria-label="Închide">×</button>
+      <p class="section-label">Recenzie</p>
+      <h2 class="modal-title" id="review-view-title">Ce a spus clientul</h2>
+      <div class="review-view-stars" data-view-stars></div>
+      <blockquote class="review-view-text" data-view-text></blockquote>
+      <footer class="review-view-meta">
+        <span class="review-name" data-view-name></span>
+        <time data-view-date></time>
+      </footer>
     </div>
   </div>
 
