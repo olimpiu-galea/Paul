@@ -1,6 +1,13 @@
 {
   "reviews": [
     {
+      "id": "r20",
+      "name": "Ciprian Constantea",
+      "rating": 5,
+      "text": "Un profesionist foarte bine pregătit, răbdător și atent la omul din fața lui. Îl cunosc pe Paul de ceva timp și am apreciat întotdeauna capacitatea lui de a explica lucrurile simplu și clar, precum și seriozitatea cu care abordează ceea ce face, fiind foarte orientat spre nevoile celui din fața lui. Recomand cu încredere.",
+      "date": "2026-08-11"
+    },
+    {
       "id": "r19",
       "name": "Anita",
       "rating": 5,
