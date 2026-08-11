@@ -1,6 +1,62 @@
 {
   "reviews": [
     {
+      "id": "r18",
+      "name": "Laviniu Lup",
+      "rating": 5,
+      "text": "Recomand 100%",
+      "date": "2026-08-11"
+    },
+    {
+      "id": "r11",
+      "name": "Simona Cristea",
+      "rating": 5,
+      "text": "Profesionist și eficient! Recomand cu incredere pentru ITP și asigurări auto! Totul a mers perfect",
+      "date": "2026-08-11"
+    },
+    {
+      "id": "r12",
+      "name": "Basciaus Elena",
+      "rating": 5,
+      "text": "Foarte bună!",
+      "date": "2026-08-11"
+    },
+    {
+      "id": "r13",
+      "name": "Bianca P",
+      "rating": 5,
+      "text": "Servicii de calitate oferite de un profesionist. Recomand cu încredere!",
+      "date": "2026-08-11"
+    },
+    {
+      "id": "r14",
+      "name": "Florin Bujor",
+      "rating": 5,
+      "text": "Super servicii!!!!",
+      "date": "2026-08-11"
+    },
+    {
+      "id": "r15",
+      "name": "Maria Sinca",
+      "rating": 5,
+      "text": "Servicii de calitate Seriozitate",
+      "date": "2026-08-11"
+    },
+    {
+      "id": "r16",
+      "name": "Eduard N.",
+      "rating": 5,
+      "text": "De cand il cunosc pe Paul, RCA-ul l-am facut mereu cu ajutorul lui. Servicii de nota 10, seriozitate si promptitudine. Recomand cu drag !",
+      "date": "2026-08-11"
+    },
+    {
+      "id": "r17",
+      "name": "Miron Bogdan",
+      "rating": 5,
+      "text": "Servicii excelente! Mulțumesc pentru seriozitate, disponibilitate și promptitudine!",
+      "date": "2026-08-11"
+    },
+    {
       "id": "r7",
       "name": "Sergiu H.",
       "rating": 5,
