@@ -23,11 +23,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/styles.css?v=reviews-fix1" />
   <script src="config.js" defer></script>
   <script src="js/cookies.js" defer></script>
   <script src="js/main.js" defer></script>
-  <script src="js/reviews.js" defer></script>
+  <script src="js/reviews.js?v=reviews-fix1" defer></script>
 
   <script type="application/ld+json">
   {
@@ -272,9 +272,14 @@
               </div>
             </div>
           </div>
-          <button type="button" class="btn btn-ghost" data-review-open>
-            Lasă un review
-          </button>
+          <div class="reviews-actions">
+            <button type="button" class="reviews-all-link" data-reviews-browse-open>
+              Vezi toate recenziile
+            </button>
+            <button type="button" class="btn btn-ghost" data-review-open>
+              Lasă un review
+            </button>
+          </div>
         </div>
         <div class="reviews-stage">
           <div class="reviews-track" data-reviews-track></div>
@@ -452,18 +457,64 @@
 
     <section id="despre" aria-labelledby="despre-title">
       <div class="container section-block">
-        <p class="section-label">Despre</p>
-        <h2 class="section-title" id="despre-title">Servicii accesibile, fără programări și drumuri în plus</h2>
-        <div class="about-text">
-          <p>
-            Ofer aceste servicii în regim de sprijin practic: scopul este să evitați deplasările și așteptările pentru demersuri care pot fi rezolvate rapid și corect.
-          </p>
-          <p>
-            Îmi desfășor activitatea în cadrul unei stații ITP, unde pentru inspecție este necesară o poliță RCA valabilă. Pot întocmi asigurarea pe loc — la stație sau la domiciliu — precum și polițe CASCO, asigurări de călătorie și asigurări pentru locuință. Pentru ITP, în Cluj-Napoca, pot prelua și returna mașina din cartierele apropiate; detaliile le stabilim în privat.
-          </p>
-          <p>
-            Complementar, ofer diagnoză auto mobilă prin interfața OBD, pentru identificarea problemelor tehnice fără a lăsa vehiculul în service doar pentru citirea codurilor de eroare.
-          </p>
+        <div class="about-layout">
+          <div class="about-copy">
+            <p class="section-label">Despre</p>
+            <h2 class="section-title" id="despre-title">Servicii accesibile, fără programări și drumuri în plus</h2>
+            <div class="about-text">
+              <p>
+                Ofer aceste servicii în regim de sprijin practic: scopul este să evitați deplasările și așteptările pentru demersuri care pot fi rezolvate rapid și corect.
+              </p>
+              <p>
+                Îmi desfășor activitatea în cadrul unei stații ITP, unde pentru inspecție este necesară o poliță RCA valabilă. Pot întocmi asigurarea pe loc — la stație sau la domiciliu — precum și polițe CASCO, asigurări de călătorie și asigurări pentru locuință. Pentru ITP, în Cluj-Napoca, pot prelua și returna mașina din cartierele apropiate; detaliile le stabilim în privat.
+              </p>
+              <p>
+                Complementar, ofer diagnoză auto mobilă prin interfața OBD, pentru identificarea problemelor tehnice fără a lăsa vehiculul în service doar pentru citirea codurilor de eroare.
+              </p>
+            </div>
+          </div>
+
+          <figure class="about-flow-map" aria-label="Cum simplifică Paul drumurile">
+            <p class="about-flow-kicker">Cum simplifică Paul</p>
+            <ol class="about-flow-steps">
+              <li class="about-flow-step">
+                <span class="about-flow-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M5 11.5 12 5l7 6.5V20H14v-5h-4v5H5v-8.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="about-flow-label">Tu acasă</span>
+                <span class="about-flow-desc">Fără cozi, programări și drumuri în plus</span>
+              </li>
+              <li class="about-flow-step">
+                <span class="about-flow-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M5 7.5h14a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-7l-4 3v-3H5a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 11h8M8 14h5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                </span>
+                <span class="about-flow-label">WhatsApp</span>
+                <span class="about-flow-desc">Ne scrii — clarificăm documentele și zona</span>
+              </li>
+              <li class="about-flow-step about-flow-step--services">
+                <span class="about-flow-icon about-flow-icon--hub" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 15h16l-1.7-6H5.7L4 15zm3-8.5 1.2-3h7.6l1.2 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7.5" cy="15.5" r="1.4" stroke="currentColor" stroke-width="1.2"/><circle cx="16.5" cy="15.5" r="1.4" stroke="currentColor" stroke-width="1.2"/></svg>
+                </span>
+                <span class="about-flow-label">Paul vine / preia</span>
+                <span class="about-flow-desc">La stație, la domiciliu sau la mașină — toate serviciile:</span>
+                <ul class="about-flow-services">
+                  <li>ITP cu preluare &amp; returnare (Cluj)</li>
+                  <li>Asigurare RCA</li>
+                  <li>Asigurare CASCO</li>
+                  <li>Asigurare de călătorie</li>
+                  <li>Asigurări locuință (PAD + facultative)</li>
+                  <li>Diagnoză auto mobilă OBD</li>
+                </ul>
+              </li>
+              <li class="about-flow-step">
+                <span class="about-flow-icon about-flow-icon--done" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="m6.5 12.5 3.5 3.5L17.5 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="about-flow-label">Gata, fără griji</span>
+                <span class="about-flow-desc">Serviciul e finalizat pentru tine</span>
+              </li>
+            </ol>
+          </figure>
         </div>
       </div>
     </section>
@@ -626,18 +677,69 @@
     </div>
   </div>
 
-  <div class="modal" id="review-view-modal" role="dialog" aria-modal="true" aria-labelledby="review-view-title" hidden>
-    <div class="modal-backdrop" data-review-view-close tabindex="-1"></div>
-    <div class="modal-panel modal-panel--review">
-      <button type="button" class="modal-close" data-review-view-close aria-label="Închide">×</button>
-      <p class="section-label">Recenzie</p>
-      <h2 class="modal-title" id="review-view-title">Ce a spus clientul</h2>
-      <div class="review-view-stars" data-view-stars></div>
-      <blockquote class="review-view-text" data-view-text></blockquote>
-      <footer class="review-view-meta">
-        <span class="review-name" data-view-name></span>
-        <time data-view-date></time>
-      </footer>
+  <div class="modal" id="review-browse-modal" role="dialog" aria-modal="true" aria-labelledby="review-browse-title" hidden>
+    <div class="modal-backdrop" data-reviews-browse-close tabindex="-1"></div>
+    <div class="modal-panel modal-panel--browse">
+      <button type="button" class="modal-close" data-reviews-browse-close aria-label="Închide">×</button>
+
+      <div class="reviews-browse-scroll">
+        <header class="reviews-browse-head">
+          <h2 class="modal-title" id="review-browse-title">Recenzii pentru Paul</h2>
+
+          <div class="reviews-browse-scoreboard" data-browse-avg hidden>
+            <div class="reviews-browse-score-main">
+              <div class="reviews-browse-score-badge" data-browse-score></div>
+              <div class="reviews-browse-score-side">
+                <div data-browse-stars aria-hidden="true"></div>
+                <p class="reviews-browse-score-label">Nota medie</p>
+                <p class="reviews-browse-score-count" data-browse-count></p>
+              </div>
+            </div>
+            <div class="reviews-browse-viz">
+              <div class="reviews-browse-bars" data-browse-bars aria-label="Distribuție stele"></div>
+            </div>
+          </div>
+
+          <div class="reviews-browse-filters-block">
+            <p class="reviews-browse-filters-label">Filtre</p>
+            <div class="reviews-browse-selects">
+              <label class="reviews-browse-field">
+                <span>Evaluare</span>
+                <select data-browse-rating aria-label="Filtrează după evaluare">
+                  <option value="all">Toate</option>
+                  <option value="5">5 stele</option>
+                  <option value="4">4 stele</option>
+                  <option value="3">3 stele</option>
+                  <option value="2">2 stele</option>
+                  <option value="1">1 stea</option>
+                </select>
+              </label>
+              <label class="reviews-browse-field">
+                <span>Sortează</span>
+                <select data-browse-sort aria-label="Sortează recenziile">
+                  <option value="newest">Cele mai recente</option>
+                  <option value="oldest">Cele mai vechi</option>
+                  <option value="highest">Nota: descrescător</option>
+                  <option value="lowest">Nota: crescător</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="reviews-browse-list-head">
+            <h3 class="reviews-browse-list-title">Recenziile clienților</h3>
+            <p class="reviews-browse-meta" data-browse-meta></p>
+          </div>
+        </header>
+
+        <div class="reviews-browse-list" data-browse-list tabindex="0"></div>
+        <p class="reviews-browse-empty" data-browse-empty hidden>Nicio recenzie pentru aceste filtre.</p>
+      </div>
+
+      <div class="reviews-browse-foot">
+        <button type="button" class="btn btn-ghost" data-reviews-browse-close>Închide</button>
+        <button type="button" class="btn btn-primary" data-browse-leave-review>Lasă un review</button>
+      </div>
     </div>
   </div>
 

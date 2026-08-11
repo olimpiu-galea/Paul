@@ -1,6 +1,6 @@
 /**
  * Recenzii: afișare din data/reviews.json (+ seed în HTML),
- * carusel auto, modal → WhatsApp (ca formularul de contact).
+ * carusel auto, browse modal cu filtre, form → WhatsApp.
  */
 (function () {
   const INTERVAL_MS = 4000;
@@ -16,7 +16,9 @@
   const avgStarsEl = section.querySelector("[data-avg-stars]");
   const avgCountEl = section.querySelector("[data-avg-count]");
   const openBtns = document.querySelectorAll("[data-review-open]");
+  const browseOpenBtns = document.querySelectorAll("[data-reviews-browse-open]");
   const modal = document.getElementById("review-modal");
+  const browseModal = document.getElementById("review-browse-modal");
   const form = document.getElementById("review-form");
   if (!track || !modal || !form) return;
 
@@ -31,6 +33,48 @@
   let index = 0;
   let timer = null;
   let reducedMotion = false;
+  let browseFilter = "all";
+  let browseSort = "newest";
+  let browseFocusId = null;
+
+  const FEMALE_NAMES = {
+    ana: 1, anita: 1, bianca: 1, catalina: 1, cristina: 1, dana: 1, diana: 1,
+    elena: 1, ioana: 1, irina: 1, laura: 1, maria: 1, mihaela: 1, monica: 1,
+    oana: 1, roxana: 1, simona: 1, andreea: 1, alexandra: 1, georgiana: 1,
+    iulia: 1, iuli: 1, alina: 1, adriana: 1, gabriela: 1, sofia: 1, teodora: 1,
+  };
+  const MALE_NAMES = {
+    andrei: 1, adrian: 1, alexandru: 1, bogdan: 1, catalin: 1, ciprian: 1,
+    cristian: 1, daniel: 1, eduard: 1, florin: 1, george: 1, ionut: 1, ionuț: 1,
+    laviniu: 1, lucian: 1, mihai: 1, mihaita: 1, "mihăiță": 1, mircea: 1,
+    miron: 1, nicolae: 1, paul: 1, radu: 1, sergiu: 1, stefan: 1, stefan: 1,
+    vlad: 1, goia: 1, luca: 1,
+  };
+
+  const AVATAR_MALE =
+    '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+    '<circle cx="12" cy="8" r="3.25" stroke="currentColor" stroke-width="1.4"/>' +
+    '<path d="M5.5 19.2c.9-3.4 3.2-5.2 6.5-5.2s5.6 1.8 6.5 5.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>' +
+    "</svg>";
+
+  const AVATAR_FEMALE =
+    '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+    '<circle cx="12" cy="8.2" r="3.1" stroke="currentColor" stroke-width="1.4"/>' +
+    '<path d="M8.2 6.2c.7-1.5 2-2.3 3.8-2.3s3.1.8 3.8 2.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>' +
+    '<path d="M5.5 19.2c.9-3.4 3.2-5.2 6.5-5.2s5.6 1.8 6.5 5.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>' +
+    "</svg>";
+
+  const browseList = browseModal && browseModal.querySelector("[data-browse-list]");
+  const browseEmpty = browseModal && browseModal.querySelector("[data-browse-empty]");
+  const browseMeta = browseModal && browseModal.querySelector("[data-browse-meta]");
+  const browseAvg = browseModal && browseModal.querySelector("[data-browse-avg]");
+  const browseScore = browseModal && browseModal.querySelector("[data-browse-score]");
+  const browseStars = browseModal && browseModal.querySelector("[data-browse-stars]");
+  const browseCount = browseModal && browseModal.querySelector("[data-browse-count]");
+  const browseBars = browseModal && browseModal.querySelector("[data-browse-bars]");
+  const browseSortEl = browseModal && browseModal.querySelector("[data-browse-sort]");
+  const browseRatingEl = browseModal && browseModal.querySelector("[data-browse-rating]");
+  const browseScroll = browseModal && browseModal.querySelector(".reviews-browse-scroll");
 
   try {
     reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -61,6 +105,13 @@
     }
     html += "</span>";
     return html;
+  }
+
+  function anyModalOpen() {
+    return (
+      !modal.hidden ||
+      (browseModal && !browseModal.hidden)
+    );
   }
 
   function updateAverage() {
@@ -110,7 +161,9 @@
       '<blockquote class="review-text is-clamped">' +
       escapeHtml(r.text || "") +
       "</blockquote>" +
+      '<div class="review-more-slot">' +
       '<button type="button" class="review-more" data-review-more hidden>Citește mai mult</button>' +
+      "</div>" +
       '<footer class="review-meta">' +
       '<span class="review-name">' +
       escapeHtml(r.name || "Client") +
@@ -127,6 +180,202 @@
     );
   }
 
+  function normalizeNameToken(token) {
+    return String(token || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z]/g, "");
+  }
+
+  function guessGender(name) {
+    const parts = String(name || "")
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .map(normalizeNameToken)
+      .filter(Boolean);
+    if (!parts.length) return "m";
+
+    for (let i = 0; i < parts.length; i++) {
+      if (FEMALE_NAMES[parts[i]]) return "f";
+      if (MALE_NAMES[parts[i]]) return "m";
+    }
+
+    const first = parts[0];
+    if (/a$|ea$|ia$/.test(first) && !MALE_NAMES[first]) return "f";
+    return "m";
+  }
+
+  function avatarHtml(name) {
+    const gender = guessGender(name);
+    return (
+      '<div class="reviews-browse-avatar reviews-browse-avatar--' +
+      gender +
+      '" aria-hidden="true">' +
+      (gender === "f" ? AVATAR_FEMALE : AVATAR_MALE) +
+      "</div>"
+    );
+  }
+
+  function browseItemHtml(r, focused) {
+    const id = escapeHtml(r.id || "");
+    const name = r.name || "Client";
+    const rating = Math.max(1, Math.min(5, Number(r.rating) || 5));
+    const ratingLabel = rating.toFixed(1).replace(".", ",");
+    return (
+      '<article class="reviews-browse-item' +
+      (focused ? " is-focus" : "") +
+      '" data-browse-id="' +
+      id +
+      '" id="browse-review-' +
+      id +
+      '">' +
+      '<div class="reviews-browse-author">' +
+      avatarHtml(name) +
+      '<div class="reviews-browse-author-meta">' +
+      '<span class="review-name">' +
+      escapeHtml(name) +
+      "</span>" +
+      (r.date
+        ? '<time datetime="' +
+          escapeHtml(r.date) +
+          '">Recenzie: ' +
+          escapeHtml(formatDate(r.date)) +
+          "</time>"
+        : "") +
+      "</div>" +
+      "</div>" +
+      '<div class="reviews-browse-body">' +
+      '<div class="reviews-browse-body-top">' +
+      starsHtml(r.rating) +
+      '<span class="reviews-browse-rating-badge" aria-label="' +
+      rating +
+      ' din 5">' +
+      escapeHtml(ratingLabel) +
+      "</span>" +
+      "</div>" +
+      '<blockquote class="review-text">' +
+      escapeHtml(r.text || "") +
+      "</blockquote>" +
+      "</div>" +
+      "</article>"
+    );
+  }
+
+  function getFilteredSortedReviews() {
+    let list = reviews.slice();
+    if (browseFilter !== "all") {
+      const rating = Number(browseFilter);
+      list = list.filter((r) => Number(r.rating) === rating);
+    }
+    list.sort((a, b) => {
+      if (browseSort === "oldest") {
+        return String(a.date || "").localeCompare(String(b.date || ""));
+      }
+      if (browseSort === "highest") {
+        return (Number(b.rating) || 0) - (Number(a.rating) || 0);
+      }
+      if (browseSort === "lowest") {
+        return (Number(a.rating) || 0) - (Number(b.rating) || 0);
+      }
+      return String(b.date || "").localeCompare(String(a.date || ""));
+    });
+    return list;
+  }
+
+  function renderBrowseBars() {
+    if (!browseBars) return;
+    const total = reviews.length || 1;
+    const counts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+    reviews.forEach((r) => {
+      const n = Math.max(1, Math.min(5, Math.round(Number(r.rating) || 0)));
+      counts[n] += 1;
+    });
+    browseBars.innerHTML = [5, 4, 3, 2, 1]
+      .map((star) => {
+        const count = counts[star];
+        const pct = Math.round((count / total) * 100);
+        return (
+          '<div class="reviews-browse-bar-row">' +
+          "<span>" +
+          star +
+          " ★</span>" +
+          '<div class="reviews-browse-bar-track" aria-hidden="true">' +
+          '<div class="reviews-browse-bar-fill" style="width:' +
+          pct +
+          '%"></div>' +
+          "</div>" +
+          "<strong>" +
+          count +
+          "</strong>" +
+          "</div>"
+        );
+      })
+      .join("");
+  }
+
+  function updateBrowseSummary() {
+    if (!browseAvg) return;
+    if (!reviews.length) {
+      browseAvg.hidden = true;
+      return;
+    }
+    const sum = reviews.reduce((acc, r) => acc + (Number(r.rating) || 0), 0);
+    const avg = sum / reviews.length;
+    const avgRounded = Math.round(avg * 10) / 10;
+    const avgLabel = avgRounded.toFixed(1).replace(".", ",");
+    if (browseScore) browseScore.textContent = avgLabel;
+    if (browseStars) browseStars.innerHTML = starsHtml(avg, { partial: true });
+    if (browseCount) {
+      const n = reviews.length;
+      browseCount.textContent = n === 1 ? "pe baza a 1 recenzie" : "pe baza a " + n + " recenzii";
+    }
+    renderBrowseBars();
+    browseAvg.hidden = false;
+  }
+
+  function renderBrowseList() {
+    if (!browseModal || !browseList) return;
+    updateBrowseSummary();
+    const list = getFilteredSortedReviews();
+
+    if (browseMeta) {
+      browseMeta.textContent =
+        list.length === 1
+          ? "1 recenzie afișată"
+          : list.length + " recenzii afișate";
+    }
+
+    if (!list.length) {
+      browseList.innerHTML = "";
+      if (browseEmpty) browseEmpty.hidden = false;
+      return;
+    }
+
+    if (browseEmpty) browseEmpty.hidden = true;
+    browseList.innerHTML = list
+      .map((r) => browseItemHtml(r, browseFocusId && String(r.id) === String(browseFocusId)))
+      .join("");
+
+    if (browseFocusId) {
+      const el = browseList.querySelector(
+        '[data-browse-id="' + CSS.escape(String(browseFocusId)) + '"]'
+      );
+      if (el) {
+        requestAnimationFrame(() => {
+          el.scrollIntoView({ block: "nearest", behavior: reducedMotion ? "auto" : "smooth" });
+        });
+      }
+    }
+  }
+
+  function syncBrowseFiltersUi() {
+    if (!browseModal) return;
+    if (browseRatingEl) browseRatingEl.value = browseFilter;
+    if (browseSortEl) browseSortEl.value = browseSort;
+  }
+
   function markOverflow() {
     track.querySelectorAll(".review-card").forEach((card) => {
       const textEl = card.querySelector(".review-text");
@@ -135,6 +384,26 @@
       const overflows = textEl.scrollHeight > textEl.clientHeight + 1;
       moreBtn.hidden = !overflows;
     });
+  }
+
+  function syncTrackHeight() {
+    const pages = track.querySelectorAll(".review-page");
+    if (!pages.length) {
+      track.style.height = "";
+      track.style.minHeight = "";
+      return;
+    }
+
+    let max = 0;
+    pages.forEach((page) => {
+      max = Math.max(max, page.scrollHeight, page.offsetHeight);
+    });
+
+    if (max > 0) {
+      const px = Math.ceil(max) + "px";
+      track.style.minHeight = px;
+      track.style.height = px;
+    }
   }
 
   function buildPages() {
@@ -185,7 +454,11 @@
         .join("");
     }
 
-    requestAnimationFrame(markOverflow);
+    requestAnimationFrame(() => {
+      markOverflow();
+      syncTrackHeight();
+    });
+    if (browseModal && !browseModal.hidden) renderBrowseList();
   }
 
   function goTo(i) {
@@ -201,7 +474,10 @@
         el.classList.toggle("is-active", j === index);
       });
     }
-    requestAnimationFrame(markOverflow);
+    requestAnimationFrame(() => {
+      markOverflow();
+      syncTrackHeight();
+    });
   }
 
   function next() {
@@ -211,7 +487,7 @@
   function startTimer() {
     stopTimer();
     if (reducedMotion || pages.length < 2) return;
-    if (!modal.hidden || (viewModal && !viewModal.hidden)) return;
+    if (anyModalOpen()) return;
     timer = window.setInterval(next, INTERVAL_MS);
   }
 
@@ -232,37 +508,28 @@
     startTimer();
   }
 
-  const viewModal = document.getElementById("review-view-modal");
-  const viewStars = viewModal && viewModal.querySelector("[data-view-stars]");
-  const viewText = viewModal && viewModal.querySelector("[data-view-text]");
-  const viewName = viewModal && viewModal.querySelector("[data-view-name]");
-  const viewDate = viewModal && viewModal.querySelector("[data-view-date]");
-
-  function openViewModal(review) {
-    if (!viewModal || !review) return;
-    if (viewStars) viewStars.innerHTML = starsHtml(review.rating);
-    if (viewText) viewText.textContent = review.text || "";
-    if (viewName) viewName.textContent = review.name || "Client";
-    if (viewDate) {
-      if (review.date) {
-        viewDate.dateTime = review.date;
-        viewDate.textContent = formatDate(review.date);
-        viewDate.hidden = false;
-      } else {
-        viewDate.textContent = "";
-        viewDate.hidden = true;
-      }
+  function openBrowseModal(opts) {
+    if (!browseModal) return;
+    browseFocusId = opts && opts.focusId ? opts.focusId : null;
+    if (browseFocusId) {
+      browseFilter = "all";
+      browseSort = "newest";
     }
-    viewModal.hidden = false;
+    syncBrowseFiltersUi();
+    renderBrowseList();
+    browseModal.hidden = false;
     document.body.classList.add("modal-open");
     stopTimer();
-    const closeBtn = viewModal.querySelector("[data-review-view-close]");
-    if (closeBtn) closeBtn.focus();
+    if (browseScroll) browseScroll.scrollTop = 0;
+    const closeBtn = browseModal.querySelector(".modal-close");
+    if (closeBtn && !browseFocusId) closeBtn.focus();
+    else if (browseList) browseList.focus();
   }
 
-  function closeViewModal() {
-    if (!viewModal) return;
-    viewModal.hidden = true;
+  function closeBrowseModal() {
+    if (!browseModal) return;
+    browseModal.hidden = true;
+    browseFocusId = null;
     if (modal.hidden) document.body.classList.remove("modal-open");
     startTimer();
   }
@@ -282,7 +549,7 @@
     const ratingInput = form.querySelector("#review-rating");
     if (ratingInput) ratingInput.value = "5";
     syncStarButtons(5);
-    if (!viewModal || viewModal.hidden) document.body.classList.remove("modal-open");
+    if (!browseModal || browseModal.hidden) document.body.classList.remove("modal-open");
     startTimer();
   }
 
@@ -305,16 +572,49 @@
     }
   }
 
+  function resetBrowseScroll() {
+    if (browseScroll) browseScroll.scrollTop = 0;
+  }
+
   openBtns.forEach((btn) => btn.addEventListener("click", openModal));
+  browseOpenBtns.forEach((btn) =>
+    btn.addEventListener("click", () => openBrowseModal())
+  );
 
   modal.querySelectorAll("[data-review-close]").forEach((el) => {
     el.addEventListener("click", closeModal);
   });
 
-  if (viewModal) {
-    viewModal.querySelectorAll("[data-review-view-close]").forEach((el) => {
-      el.addEventListener("click", closeViewModal);
+  if (browseModal) {
+    browseModal.querySelectorAll("[data-reviews-browse-close]").forEach((el) => {
+      el.addEventListener("click", closeBrowseModal);
     });
+
+    if (browseRatingEl) {
+      browseRatingEl.addEventListener("change", () => {
+        browseFilter = browseRatingEl.value || "all";
+        browseFocusId = null;
+        renderBrowseList();
+        resetBrowseScroll();
+      });
+    }
+
+    if (browseSortEl) {
+      browseSortEl.addEventListener("change", () => {
+        browseSort = browseSortEl.value || "newest";
+        browseFocusId = null;
+        renderBrowseList();
+        resetBrowseScroll();
+      });
+    }
+
+    const leaveBtn = browseModal.querySelector("[data-browse-leave-review]");
+    if (leaveBtn) {
+      leaveBtn.addEventListener("click", () => {
+        closeBrowseModal();
+        openModal();
+      });
+    }
   }
 
   track.addEventListener("click", (e) => {
@@ -323,29 +623,31 @@
     const card = btn.closest("[data-review-id]");
     if (!card) return;
     const id = card.getAttribute("data-review-id");
-    const review = reviews.find((r) => String(r.id) === String(id));
-    if (review) openViewModal(review);
+    openBrowseModal({ focusId: id });
   });
 
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
-    if (viewModal && !viewModal.hidden) closeViewModal();
+    if (browseModal && !browseModal.hidden) closeBrowseModal();
     else if (!modal.hidden) closeModal();
   });
 
   section.addEventListener("mouseenter", stopTimer);
   section.addEventListener("mouseleave", () => {
-    if (modal.hidden && (!viewModal || viewModal.hidden)) startTimer();
+    if (!anyModalOpen()) startTimer();
   });
   section.addEventListener("focusin", stopTimer);
   section.addEventListener("focusout", (e) => {
     if (!section.contains(e.relatedTarget)) {
-      if (modal.hidden && (!viewModal || viewModal.hidden)) startTimer();
+      if (!anyModalOpen()) startTimer();
     }
   });
 
   window.addEventListener("resize", () => {
-    requestAnimationFrame(markOverflow);
+    requestAnimationFrame(() => {
+      markOverflow();
+      syncTrackHeight();
+    });
   });
 
   if (dots) {
