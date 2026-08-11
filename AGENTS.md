@@ -17,7 +17,7 @@ Limbă publică: **română**. Fără backend / API.
 |--------|-----|
 | `CONTENT.md` | Copy RO — sursă de adevăr pentru texte |
 | `config.js` | Telefon, WhatsApp, brand — sursă de adevăr contact |
-| `llms.txt` | Rezumat pentru crawleri / asistenți AI |
+| `llms.txt` | Rezumat + FAQ complex pentru crawleri / asistenți AI |
 | `index.html` | Structură pagină + JSON-LD |
 | `css/styles.css` | Stiluri (`:root` pentru brand) |
 | `js/main.js` | Nav, reveal, formular → WhatsApp |

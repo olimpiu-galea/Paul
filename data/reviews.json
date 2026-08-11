@@ -1,6 +1,20 @@
 {
   "reviews": [
     {
+      "id": "r21",
+      "name": "Moisa Iuli",
+      "rating": 5,
+      "text": "Extrem de multumita!",
+      "date": "2026-08-11"
+    },
+    {
+      "id": "r22",
+      "name": "Adrian",
+      "rating": 5,
+      "text": "În loc să mă învoiesc de la muncă să stau la coada la ITP, a venit Paul și a luat mașina, eu mi-am terminat treaba la birou și m-am dus acasă mai devreme, la familie, unde mașina era deja adusă. Mulțumesc Paul!",
+      "date": "2026-08-11"
+    },
+    {
       "id": "r20",
       "name": "Ciprian Constantea",
       "rating": 5,
