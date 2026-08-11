@@ -43,6 +43,7 @@ Paul oferă asigurări RCA, CASCO, de călătorie și pentru locuință (obligat
 - Source of truth for phone/WhatsApp: config.js
 - Agent map: AGENTS.md
 
-## Optional URLs after deploy
+## Live site
 
-Replace YOUR-DOMAIN.ro with the live domain in sitemap.xml, robots.txt, and canonical/JSON-LD.
+- Canonical: https://www.paulbas.ro/
+- Also: https://paulbas.ro (same deployment)

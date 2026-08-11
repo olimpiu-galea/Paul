@@ -1,8 +1,7 @@
-# Înlocuiește YOUR-DOMAIN.ro cu domeniul real după deploy
 User-agent: *
 Allow: /
 
 # Conținut structurat pentru asistenți AI
 Allow: /llms.txt
 
-Sitemap: https://YOUR-DOMAIN.ro/sitemap.xml
+Sitemap: https://www.paulbas.ro/sitemap.xml

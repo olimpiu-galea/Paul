@@ -43,7 +43,7 @@ Limbă publică: **română**. Fără backend / API.
 4. **Culori / fonturi** → `:root` în `css/styles.css`.
 5. **Cookies** → `js/cookies.js` + `politica-cookies.html`.
 6. **Recenzii** → editează `data/reviews.json` (+ seed din `index.html` `#reviews-seed`). Modalul trimite pe WhatsApp; ca să apară pe site, adaugă recenzia în JSON și redeploy.
-7. **Domeniu live** → înlocuiește `https://YOUR-DOMAIN.ro` în `sitemap.xml`, `robots.txt`, `index.html` (canonical, og:url, JSON-LD `url`), `config.js`.
+7. **Domeniu live** → canonic: `https://www.paulbas.ro` (`sitemap.xml`, `robots.txt`, `index.html`, `config.js`).
 
 ## Secțiuni pagină (`index.html`)
 
@@ -63,6 +63,6 @@ Limbă publică: **română**. Fără backend / API.
 2. În [vercel.com](https://vercel.com): **Add New Project** → importă repo-ul.
 3. Framework Preset: **Other** (site static, fără build).
 4. Root Directory: `.` — Deploy.
-5. După ce ai domeniul Vercel (ex. `paul-xxx.vercel.app` sau custom): înlocuiește `YOUR-DOMAIN.ro` în `index.html`, `sitemap.xml`, `robots.txt`, `config.js`.
+5. Domeniu canonic: `https://www.paulbas.ro` (și `paulbas.ro` pe același proiect Vercel).
 
 Hosting static alternativ: Netlify, GitHub Pages, cPanel. Deschide `index.html` local pentru preview.
