@@ -1,6 +1,20 @@
 {
   "reviews": [
     {
+      "id": "r28",
+      "name": "Carmen",
+      "rating": 5,
+      "text": "Recomand! Promptitudine, consultanță pe înțelesul omului de rând!",
+      "date": "2026-08-16"
+    },
+    {
+      "id": "r27",
+      "name": "Andreia",
+      "rating": 5,
+      "text": "Implicare si profesionalism! Recomand",
+      "date": "2026-08-16"
+    },
+    {
       "id": "r26",
       "name": "Mirea Bogdan",
       "rating": 5,

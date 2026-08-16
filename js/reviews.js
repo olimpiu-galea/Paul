@@ -40,8 +40,8 @@
   const FEMALE_NAMES = {
     ana: 1, anita: 1, bianca: 1, catalina: 1, cristina: 1, dana: 1, diana: 1,
     elena: 1, ioana: 1, irina: 1, laura: 1, maria: 1, mihaela: 1, monica: 1,
-    oana: 1, roxana: 1, simona: 1, andreea: 1, alexandra: 1, georgiana: 1,
-    iulia: 1, iuli: 1, alina: 1, adriana: 1, gabriela: 1, sofia: 1, teodora: 1,
+    oana: 1, roxana: 1, simona: 1, andreea: 1, andreia: 1, alexandra: 1, georgiana: 1,
+    iulia: 1, iuli: 1, alina: 1, adriana: 1, gabriela: 1, sofia: 1, teodora: 1, carmen: 1,
   };
   const MALE_NAMES = {
     andrei: 1, adrian: 1, alexandru: 1, bogdan: 1, catalin: 1, ciprian: 1,
