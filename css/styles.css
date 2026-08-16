@@ -1753,6 +1753,21 @@ body.modal-open {
   margin-top: 0.15rem;
 }
 
+.review-form-status {
+  margin: 0 0 0.85rem;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+.review-form-status.is-ok {
+  color: #9fd4a5;
+}
+
+.review-form-status.is-err {
+  color: #e8a0a0;
+}
+
 .site-footer {
   border-top: 1px solid var(--line-soft);
   padding: 1.75rem 0 6.5rem;

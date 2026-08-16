@@ -21,7 +21,7 @@ Limbă publică: **română**. Fără backend / API.
 | `index.html` | Structură pagină + JSON-LD |
 | `css/styles.css` | Stiluri (`:root` pentru brand) |
 | `js/main.js` | Nav, reveal, formular → WhatsApp |
-| `js/reviews.js` | Carusel recenzii + modal → WhatsApp |
+| `js/reviews.js` | Carusel recenzii + modal → email (FormSubmit) |
 | `js/cookies.js` | Banner cookies (localStorage) |
 | `data/reviews.json` | Recenzii afișate (și seed în `index.html`) |
 | `assets/paul-breakout.png` | Poză hero |
@@ -42,7 +42,7 @@ Limbă publică: **română**. Fără backend / API.
 3. **Poză hero** → `assets/paul-breakout.png` (aceeași denumire).
 4. **Culori / fonturi** → `:root` în `css/styles.css`.
 5. **Cookies** → `js/cookies.js` + `politica-cookies.html`.
-6. **Recenzii** → editează `data/reviews.json` (+ seed din `index.html` `#reviews-seed`). Modalul trimite pe WhatsApp; ca să apară pe site, adaugă recenzia în JSON și redeploy.
+6. **Recenzii** → editează `data/reviews.json` (+ seed). Modal → email: pune `web3formsAccessKey` în `config.js` (cheie de pe https://web3forms.com/#start pe `reviewEmail`). Succes = răspuns API `success`. La eșec: buton `mailto:`. Apoi publică recenzia în JSON + redeploy.
 7. **Domeniu live** → canonic: `https://www.paulbas.ro` (`sitemap.xml`, `robots.txt`, `index.html`, `config.js`).
 
 ## Secțiuni pagină (`index.html`)

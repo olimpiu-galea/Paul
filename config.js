@@ -11,6 +11,13 @@ window.SITE_CONFIG = {
   /** Doar cifre, cu prefix țară, fără + — pentru wa.me */
   whatsappNumber: "40722452793",
   whatsappUrl: "https://wa.me/40722452793",
+  /** Email destinatar pentru recenzii */
+  reviewEmail: "oli.galea95@gmail.com",
+  /**
+   * Cheie publică Web3Forms (recomandat).
+   * Obține gratuit: https://web3forms.com/#start → pui emailul de mai sus → vine cheia pe mail.
+   */
+  web3formsAccessKey: "ba347352-431f-4366-a842-7f8d8d53ec38",
   /** Domeniu canonic (fără slash final) — sincronizat cu sitemap/canonical/JSON-LD */
   siteUrl: "https://www.paulbas.ro",
   locale: "ro-RO",

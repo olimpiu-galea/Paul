@@ -23,11 +23,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/styles.css?v=reviews-fix1" />
+  <link rel="stylesheet" href="css/styles.css?v=review-email2" />
   <script src="config.js" defer></script>
   <script src="js/cookies.js" defer></script>
   <script src="js/main.js" defer></script>
-  <script src="js/reviews.js?v=reviews-fix1" defer></script>
+  <script src="js/reviews.js?v=review-email2" defer></script>
 
   <script type="application/ld+json">
   {
@@ -784,7 +784,7 @@
       <button type="button" class="modal-close" data-review-close aria-label="Închide">×</button>
       <p class="section-label">Recenzie</p>
       <h2 class="modal-title" id="review-modal-title">Lasă un review</h2>
-      <p class="modal-lead">Spune-ne pe scurt cum a fost experiența cu serviciile oferite.</p>
+      <p class="modal-lead">Spune-ne pe scurt cum a fost experiența. Recenzia se trimite pe email; apar pe site după ce o publicăm.</p>
       <form id="review-form" novalidate>
         <div class="field" data-field="review-name">
           <label for="review-name">Nume</label>
@@ -807,8 +807,9 @@
           <textarea id="review-text" name="text" required maxlength="400" rows="4" placeholder="Descrieți pe scurt experiența…"></textarea>
           <p class="field-error">Scrieți cel puțin 10 caractere.</p>
         </div>
+        <p class="review-form-status" data-review-status hidden role="status"></p>
         <div class="form-actions">
-          <button class="btn btn-primary" type="submit">Trimite pe WhatsApp</button>
+          <button class="btn btn-primary" type="submit" data-review-submit>Trimite recenzia</button>
         </div>
       </form>
     </div>
