@@ -1,6 +1,6 @@
 /**
  * Recenzii: afișare din data/reviews.json (+ seed în HTML),
- * carusel auto, browse modal cu filtre, form → email (FormSubmit) + fallback mailto.
+ * carusel auto, browse modal cu filtre, form → WhatsApp.
  */
 (function () {
   const INTERVAL_MS = 4000;
@@ -24,12 +24,7 @@
 
   const cfg = window.SITE_CONFIG || {
     whatsappNumber: "40722452793",
-    reviewEmail: "oli.galea95@gmail.com",
   };
-
-  const statusEl = form.querySelector("[data-review-status]");
-  const submitBtn = form.querySelector("[data-review-submit]");
-  let submitting = false;
 
   const PER_PAGE = 2;
   let fileReviews = [];
@@ -542,7 +537,6 @@
   function openModal() {
     modal.hidden = false;
     document.body.classList.add("modal-open");
-    setFormStatus("", null);
     const first = form.querySelector("#review-name");
     if (first) first.focus();
     stopTimer();
@@ -690,161 +684,11 @@
     });
   }
 
-  function setFormStatus(msg, kind) {
-    if (!statusEl) return;
-    if (!msg) {
-      statusEl.hidden = true;
-      statusEl.textContent = "";
-      statusEl.classList.remove("is-ok", "is-err");
-      statusEl.removeAttribute("data-mailto");
-      return;
-    }
-    statusEl.hidden = false;
-    statusEl.textContent = msg;
-    statusEl.classList.toggle("is-ok", kind === "ok");
-    statusEl.classList.toggle("is-err", kind === "err");
-  }
-
-  function reviewEmail() {
-    return String(cfg.reviewEmail || "oli.galea95@gmail.com").trim();
-  }
-
-  function web3Key() {
-    return String(cfg.web3formsAccessKey || "").trim();
-  }
-
-  function isApiSuccess(data) {
-    if (!data) return false;
-    return data.success === true || data.success === "true";
-  }
-
-  function buildMailto(email, subject, body) {
-    return (
-      "mailto:" +
-      email +
-      "?subject=" +
-      encodeURIComponent(subject) +
-      "&body=" +
-      encodeURIComponent(body)
-    );
-  }
-
-  function mailtoHref(payload) {
-    const subject = "Recenzie site Paul — " + payload.rating + "/5 — " + payload.name;
-    const body = [
-      "Nume: " + payload.name,
-      "Evaluare: " + payload.stars + " (" + payload.rating + "/5)",
-      "Mesaj: " + payload.text,
-    ].join("\n");
-    return buildMailto(reviewEmail(), subject, body);
-  }
-
-  function sendViaWeb3Forms(payload) {
-    const key = web3Key();
-    if (!key) return Promise.reject(new Error("Lipsește web3formsAccessKey în config.js"));
-
-    return fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        access_key: key,
-        subject: "Recenzie site Paul — " + payload.rating + "/5 — " + payload.name,
-        from_name: "Paul — site",
-        name: payload.name,
-        rating: payload.stars + " (" + payload.rating + "/5)",
-        message: payload.text,
-        page: cfg.siteUrl || "https://www.paulbas.ro",
-        botcheck: "",
-      }),
-    }).then(async (res) => {
-      let data = null;
-      try {
-        data = await res.json();
-      } catch (_) {
-        data = null;
-      }
-      if (!res.ok || !isApiSuccess(data)) {
-        throw new Error(
-          (data && (data.message || data.error)) ||
-            "Web3Forms a răspuns cu eroare (" + res.status + ")."
-        );
-      }
-      return { provider: "web3forms", data: data };
-    });
-  }
-
-  function sendViaFormSubmit(payload) {
-    const email = reviewEmail();
-    const endpoint = "https://formsubmit.co/ajax/" + encodeURIComponent(email);
-    const body = new FormData();
-    body.append("name", payload.name);
-    body.append("_subject", "Recenzie site Paul — " + payload.rating + "/5 — " + payload.name);
-    body.append("_template", "table");
-    body.append("rating", payload.stars + " (" + payload.rating + "/5)");
-    body.append("message", payload.text);
-    body.append("source", cfg.siteUrl || "https://www.paulbas.ro");
-
-    return fetch(endpoint, {
-      method: "POST",
-      headers: { Accept: "application/json" },
-      body: body,
-    }).then(async (res) => {
-      let data = null;
-      try {
-        data = await res.json();
-      } catch (_) {
-        data = null;
-      }
-      if (!res.ok || !isApiSuccess(data)) {
-        throw new Error(
-          (data && data.message) ||
-            "FormSubmit a eșuat (" + res.status + ")."
-        );
-      }
-      return { provider: "formsubmit", data: data };
-    });
-  }
-
-  function sendReviewEmail(payload) {
-    if (web3Key()) return sendViaWeb3Forms(payload);
-    return sendViaFormSubmit(payload);
-  }
-
-  function showMailtoFallback(payload, reason) {
-    const href = mailtoHref(payload);
-    setFormStatus(
-      (reason ? reason + " " : "") +
-        "Poți trimite manual: apasă butonul de mai jos.",
-      "err"
-    );
-    let link = form.querySelector("[data-review-mailto]");
-    if (!link) {
-      link = document.createElement("a");
-      link.className = "btn btn-ghost";
-      link.setAttribute("data-review-mailto", "");
-      link.style.marginTop = "0.75rem";
-      link.style.display = "inline-flex";
-      const actions = form.querySelector(".form-actions");
-      if (actions) actions.prepend(link);
-      else form.appendChild(link);
-    }
-    link.href = href;
-    link.textContent = "Deschide aplicația de email";
-    link.hidden = false;
-  }
-
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (submitting) return;
-
     const nameWrap = form.querySelector('[data-field="review-name"]');
     const textWrap = form.querySelector('[data-field="review-text"]');
     const ratingEl = form.querySelector("#review-rating");
-    const mailtoBtn = form.querySelector("[data-review-mailto]");
-    if (mailtoBtn) mailtoBtn.hidden = true;
 
     const name = (nameEl.value || "").trim();
     const text = (textEl.value || "").trim();
@@ -852,43 +696,20 @@
 
     if (nameWrap) nameWrap.classList.toggle("has-error", !name);
     if (textWrap) textWrap.classList.toggle("has-error", text.length < 10);
-    if (!name || text.length < 10) {
-      setFormStatus("Completează numele și un mesaj de cel puțin 10 caractere.", "err");
-      return;
-    }
+    if (!name || text.length < 10) return;
 
     const stars = "★".repeat(rating) + "☆".repeat(5 - rating);
-    const payload = { name: name, rating: rating, text: text, stars: stars };
+    const message = [
+      "Bună ziua,",
+      "Am lăsat o recenzie pe site:",
+      `Nume: ${name}`,
+      `Evaluare: ${stars} (${rating}/5)`,
+      `Mesaj: ${text}`,
+    ].join("\n");
 
-    submitting = true;
-    if (submitBtn) submitBtn.disabled = true;
-    setFormStatus(
-      web3Key()
-        ? "Se trimite pe email…"
-        : "Se trimite pe email (FormSubmit)…",
-      null
-    );
-
-    sendReviewEmail(payload)
-      .then(() => {
-        setFormStatus("Mulțumim! Emailul a fost acceptat — verifică inboxul.", "ok");
-        form.reset();
-        const ratingInput = form.querySelector("#review-rating");
-        if (ratingInput) ratingInput.value = "5";
-        syncStarButtons(5);
-        setTimeout(closeModal, 1600);
-      })
-      .catch((err) => {
-        console.warn("Review email failed:", err);
-        const hint = !web3Key()
-          ? "FormSubmit e nestabil fără activare. Adaugă web3formsAccessKey în config.js. "
-          : "";
-        showMailtoFallback(payload, hint + (err && err.message ? err.message : "Trimitere eșuată."));
-      })
-      .finally(() => {
-        submitting = false;
-        if (submitBtn) submitBtn.disabled = false;
-      });
+    const url = `https://wa.me/${cfg.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+    closeModal();
   });
 
   fileReviews = readSeedFromDom();
