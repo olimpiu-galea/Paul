@@ -41,7 +41,7 @@ Limbă publică: **română**. Fără backend / API.
 2. **Telefon** → doar `config.js` (și verifică JSON-LD / meta dacă e nevoie).
 3. **Poză hero** → `assets/paul-breakout.png` (aceeași denumire).
 4. **Culori / fonturi** → `:root` în `css/styles.css`.
-5. **Cookies** → `js/cookies.js` + `politica-cookies.html`.
+5. **Cookies** → `js/cookies.js` + `politica-cookies.html`. Pagini legale: indexabile (`index, follow`); sitemap folosește URL-urile Vercel fără `.html`.
 6. **Recenzii** → editează `data/reviews.json` (+ seed din `index.html` `#reviews-seed`). Modalul trimite pe WhatsApp; ca să apară pe site, adaugă recenzia în JSON și redeploy.
 7. **Domeniu live** → canonic: `https://www.paulbas.ro` (`sitemap.xml`, `robots.txt`, `index.html`, `config.js`).
 

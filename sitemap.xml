@@ -6,17 +6,12 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.paulbas.ro/llms.txt</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://www.paulbas.ro/politica-confidentialitate.html</loc>
+    <loc>https://www.paulbas.ro/politica-confidentialitate</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://www.paulbas.ro/politica-cookies.html</loc>
+    <loc>https://www.paulbas.ro/politica-cookies</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
